@@ -1,22 +1,35 @@
 
 /**
- * Scripting 101: Particle scripting
+ * Import modules
  */
 
-const Diagnostics = require('Diagnostics')
-const Scene = require('Scene')
-const Particles = require('Particles')
-const TouchGestures = require('TouchGestures')
+var Diagnostics = require('Diagnostics')
+var Scene = require('Scene')
+var TouchGestures = require('TouchGestures')
+var Patches = require('Patches')
+
+// Grab our variable value from the patch
+var ourVar = Patches.getStringValue('helloString')
 
 
+var numberOfBubbles = 8;
 
-for (let i = 1; i < 8; i++) {
+// Setup loop that will iterate over the number of bubbles
+for (let i = 1; i < numberOfBubbles; i++) {   
 
-    // const bubble = Scene.root.find(`bubbles_${i}`).find('plane0')
+    // Get a single bubble from the scene
+    var currentBubble = Scene.root.find(`bubbles_${i}`)
 
-    // TouchGestures.onTap(bubble).subscribe((e) => {
-    //     Diagnostics.log(bubble)
-    // })
-    
+    // Setup a tap event on that bubble
+    TouchGestures.onTap(currentBubble).subscribe((e) => {
+
+        // Find bubble we tapped and hide it
+        Scene.root.find(`bubbles_${i}`).hidden = true;
+
+        // Log our last value on tap
+        Diagnostics.log(ourVar.pinLastValue())
+        
+    });
   
 }
+
